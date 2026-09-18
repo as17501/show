@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f2">
+  <meta name="description" content="as17501 的小小作品集。收集自己做的小游戏、小工具和互动演示，点开就能玩，让好奇心多走一步。">
+  <title>小小作品集 · SHOW</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/site.css">
+  <script defer src="./projects.js"></script>
+  <script defer src="./assets/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#collection">跳到作品列表</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="SHOW 小小作品集首页"><span class="brand-symbol" aria-hidden="true">✳</span><span>SHOW<span class="brand-divider">/</span><span class="brand-caption">小小作品集</span></span></a>
+      <nav aria-label="主导航"><a class="nav-active" href="#collection">作品集</a><a href="#about">关于这里</a><a class="github-link" href="https://github.com/as17501/show" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span><span class="sr-only">（新窗口打开）</span></a></nav>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span> A LITTLE SPACE FOR BIG CURIOSITY</p>
+          <h1 id="hero-title">一些小作品，<br>一些<span class="marked">大乐趣<svg viewBox="0 0 280 14" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 Q130 -2 276 8"/></svg></span><span class="hero-period">。</span></h1>
+          <p class="hero-description">把脑海里的「要不试试」，变成可以点开的东西。<br>这里有小游戏、小工具，还有一点点好奇心。</p>
+          <div class="hero-actions"><a class="primary-link" href="#collection">逛逛作品集 <span aria-hidden="true">↘</span></a><button class="random-button" id="random-project" type="button" hidden><span aria-hidden="true">⚄</span> 随便玩一个</button></div>
+          <p class="hero-note"><span aria-hidden="true">↳</span> 不用下载，点开即玩。</p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <span class="art-spark spark-one">✳</span><span class="art-spark spark-two">✧</span>
+          <div class="art-note"><span class="note-pin"></span>好奇心，<br>就是开始的理由。<span class="note-smile">◡</span></div>
+          <div class="art-window"><div class="window-bar"><i></i><i></i><i></i><span>JUST FOR FUN</span></div><div class="mini-blocks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="ball-path"></span><span class="mini-ball"></span><span class="mini-paddle"></span><span class="window-cursor">↖</span></div>
+          <div class="art-label"><span class="status-dot"></span> 灵感正在生长中</div>
+        </div>
+      </section>
+      <section class="collection" id="collection" aria-labelledby="collection-title">
+        <div class="section-heading"><div class="section-title"><span class="section-index">01 /</span><h2 id="collection-title">作品收藏架</h2><span id="total-count" class="total-count"></span></div><span class="section-note">认真做点没那么严肃的事。</span></div>
+        <div class="collection-toolbar" id="collection-toolbar" hidden>
+          <div class="filters" role="group" aria-label="按作品类型筛选">
+            <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">全部<span data-count="all">0</span></button>
+            <button type="button" class="filter" data-filter="demo" aria-pressed="false">互动演示<span data-count="demo">0</span></button>
+            <button type="button" class="filter" data-filter="game" aria-pressed="false">小游戏<span data-count="game">0</span></button>
+            <button type="button" class="filter" data-filter="tool" aria-pressed="false">小工具<span data-count="tool">0</span></button>
+          </div>
+          <div class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><label class="sr-only" for="project-search">搜索作品</label><input id="project-search" type="search" placeholder="找点有趣的…" autocomplete="off" maxlength="120"><kbd aria-hidden="true">/</kbd></div>
+        </div>
+        <p id="result-status" class="sr-only" role="status" aria-live="polite"></p>
+        <div class="project-grid" id="project-grid"></div>
+        <div class="empty-state" id="empty-state" hidden><span aria-hidden="true">✧</span><h3 id="empty-title">这里还在酝酿中</h3><p id="empty-description">新作品正在路上，先看看其他作品吧。</p><button type="button" id="reset-filters">查看全部作品 <span aria-hidden="true">↗</span></button></div>
+        <noscript><div class="no-script"><p>欢迎来玩，直接选择一个作品：</p><a href="./projects/apple-explorer/">苹果里面有什么？ · 互动演示 ↗</a><a href="./projects/freeform-breaker/">自由反弹 · 打砖块游戏 ↗</a></div></noscript>
+        <div class="more-note"><span class="more-icon" aria-hidden="true">＋</span><div><strong>作品不多，好奇心管够。</strong><p>新的小游戏、小工具和奇思妙想，会慢慢放到这里。</p></div><span class="in-progress"><span class="status-dot"></span> 持续生长中</span></div>
+      </section>
+      <section class="about" id="about" aria-labelledby="about-title"><div><p class="eyebrow">A NOTE FROM THE MAKER</p><h2 id="about-title">不一定有用，但一定有趣。<span aria-hidden="true">✳</span></h2></div><p>这里是我的数字小角落。把学习时的灵感、随手做的实验，<br class="desktop-break">和想玩的小游戏收集起来。欢迎逛逛，也欢迎常来。</p></section>
+    </main>
+    <footer class="site-footer"><span><strong>SHOW</strong> <span class="footer-slash">/</span> 由 as17501 制作</span><span>保持好奇，慢慢创造。<span class="footer-star" aria-hidden="true">✳</span></span></footer>
+  </div>
+</body>
+</html>

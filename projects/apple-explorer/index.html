@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#f6f5ee"/><meta name="description" content="用一个可以切开的 3D 苹果，和孩子一起认识果皮、果肉与种子。"/><title>苹果里面有什么？ · 小小自然家</title>  <script type="module" crossorigin src="./assets/index-Xsg4_rr9.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CV20xYOM.css">
+  <link rel="stylesheet" href="../../assets/project-nav.css">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<nav class="show-project-nav" aria-label="作品集导航"><a href="../../">← 返回小小作品集</a><span>SHOW / 保持好奇，慢慢创造。</span></nav>
+<div id="app">
+  <header class="header"><a class="brand" href="./"><span class="brand-icon">✳</span> 小小自然家 <span class="brand-en">LITTLE NATURALIST</span></a><span class="lesson"><span></span> 自然观察课 · 01</span></header>
+  <main>
+    <section class="intro"><div><div class="eyebrow">一颗苹果，一场小小的发现</div><h1>苹果里面<span>有什么？</span></h1><p>转一转，切一刀。一起寻找藏在果肉里的小秘密。</p></div><div class="intro-note"><span class="note-star">✧</span><span>让好奇心<br/><strong>从里面发芽。</strong></span></div></section>
+    <div class="workspace">
+      <section class="experiment" aria-label="苹果三维互动演示">
+        <div class="scene-top"><span class="pill"><span class="live-dot"></span> 3D 观察台</span><span id="view-status" class="view-status">完整的苹果</span></div>
+        <div id="viewport" role="img" aria-label="可旋转、可横切的三维苹果。使用下方按钮切开苹果，或切换到横截面视角。"></div>
+        <div id="scene-error" class="scene-error" hidden><strong>暂时无法启动 3D 观察台</strong><p>请使用支持 WebGL 2 的浏览器，并开启硬件加速后刷新页面。</p></div>
+        <div id="cut-label" class="cut-label">沿着苹果的「腰」横切一刀<span></span></div>
+        <div id="part-labels" class="part-labels" hidden><button data-part="skin" class="scene-label label-skin">果皮 <i></i></button><button data-part="flesh" class="scene-label label-flesh">果肉 <i></i></button><button data-part="seed" class="scene-label label-seed"><i></i> 种子截面</button></div>
+        <div id="seed-inspection-note" class="anatomy-note" hidden><strong>↕ 果梗 → 果底：种子的长轴方向</strong><span>透视示意：暂时隐藏果肉，看到的是同一组完整种子，还没有切开。</span></div><div id="section-note" class="section-note" hidden>棕边小椭圆是种子的截面，不是平躺的完整种子。</div>
+        <div class="scene-bottom"><span class="gesture">↔ 拖动旋转 <b>·</b> 滚轮 / 双指缩放</span><button id="rotate" class="quiet-button" aria-pressed="false">↻ 自动旋转</button></div>
+      </section>
+      <aside class="discovery">
+        <div class="card-eyebrow"><span>✦</span> 今天的发现</div><h2 id="discovery-title">先看看它的外衣</h2><p id="discovery-text" class="discovery-text">红红的果皮包住整个苹果。猜一猜，切开后，里面会是什么样子？</p>
+        <div class="parts" aria-label="选择要了解的部位"><button class="part active" data-part="skin" aria-pressed="true"><span class="swatch skin"></span><span><strong>果皮</strong><small>苹果的保护外衣</small></span><span class="part-arrow">↗</span></button><button class="part" data-part="flesh" aria-pressed="false"><span class="swatch flesh"></span><span><strong>果肉</strong><small>我们吃的主要部分</small></span><span class="part-arrow">↗</span></button><button class="part" data-part="seed" aria-pressed="false"><span class="swatch seed"></span><span><strong>种子</strong><small>藏在中心的小秘密</small></span><span class="part-arrow">↗</span></button></div>
+        <div class="question"><span class="question-icon">?</span><div><strong id="question-title">先猜一猜</strong><p id="question-text">苹果的种子，是散在果肉里，还是藏在中间呢？</p></div></div>
+        <div class="teaching-note">教学示意 · 本例的横切位置经过种子。<br/>上下是同一组种子的互补片段，不是两套种子；实际切面会因位置而不同。</div>
+      </aside>
+    </div>
+    <section class="control-bar" aria-label="演示控制"><div class="primary-controls"><button id="cut" class="cut-button"><span aria-hidden="true">⌁</span><span id="cut-text">切开苹果</span></button><button id="reset" class="reset-button" aria-label="重置苹果和视角">↺ <span>重来</span></button></div><div class="separation"><div class="slider-title"><label for="separation">上下分开</label><output id="separation-value" for="separation">0%</output></div><input id="separation" type="range" min="0" max="100" value="0" aria-label="上下两半的分开程度"/><div class="slider-ends"><span>合在一起</span><span>看清里面</span></div></div><div class="view-controls" role="group" aria-label="观察视角"><button id="view-3d" class="view-button active" aria-pressed="true">◈ 立体观察</button><button id="view-seeds" class="view-button" aria-pressed="false">↕ 看种子方向</button><button id="view-section" class="view-button" aria-pressed="false">◎ 看横截面</button></div></section>
+    <footer><span><span class="footer-dot"></span> 小观察，大世界。</span><span>亲子探索提示：横着切开，你能找到中心的小星星吗？</span></footer>
+    <div id="announcement" class="sr-only" aria-live="polite"></div>
+  </main>
+</div>
+</body></html>

@@ -1,0 +1,13 @@
+{
+  "name": "show",
+  "version": "1.0.0",
+  "private": true,
+  "description": "小游戏、小工具与互动演示的纯静态作品集",
+  "scripts": {
+    "start": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "test": "node --test tests/engine.test.cjs && node tests/site.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}
