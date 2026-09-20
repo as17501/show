@@ -35,16 +35,79 @@ show/
 │   ├── project-nav.css        # 子项目共用的返回入口样式
 │   ├── favicon.svg
 │   └── previews/              # 首页使用的作品真实预览图
+├── sources/
+│   └── apple-explorer/        # 苹果开发工程：TS / Three.js / 测试 / 锁文件
+├── scripts/
+│   └── build-projects.cjs     # 构建、验证并同步苹果发布包
 ├── projects/
-│   ├── apple-explorer/        # 苹果演示静态发布包
-│   └── freeform-breaker/      # 打砖块静态发布包
+│   ├── apple-explorer/        # 自动生成，禁止直接修改
+│   └── freeform-breaker/      # 无需构建，直接维护 HTML / CSS / JS
 ├── tests/                     # 浏览器集成测试、游戏引擎测试
 ├── package.json               # 仅开发和测试使用，不参与网站运行
 ├── package-lock.json
 └── .nojekyll                  # 按普通静态文件提供服务
 ```
 
-开发源码、node_modules、旧的截图和 ZIP 备份没有一起搬进此仓库。苹果演示是已经构建的发布包，日后如需修改其逻辑，应在原开发项目里修改、重新构建，再替换此处的 `assets` 和页面，并保留返回入口。打砖块的 HTML / CSS / JS 则可以直接编辑。
+苹果演示的源码、依赖锁文件、开发说明、参考截图和完整测试已纳入 `sources/apple-explorer/`，不再依赖仓库外的旧工程。原目录保留为备份，后续不要在两处同时修改。`node_modules`、临时 `dist` 和测试截图不提交。
+
+- **需构建的项目**：在 `sources/<项目>/` 维护源码，在 `projects/<项目>/` 提交构建结果。
+- **原生静态项目**：直接在 `projects/<项目>/` 维护，不复制出第二份源码。
+- 苹果发布目录的全部内容由构建脚本管理，包括许可证和部署说明；这些附属文件的源头在 `sources/apple-explorer/public/`。
+- 苹果返回入口写在源 HTML 中，样式直接引用根目录 `assets/project-nav.css`，图标引用根目录 `assets/favicon.svg`，由 Vite 一起打包。重新构建不会丢失导航。
+
+## 日常开发与迭代
+
+首次克隆后，在仓库根目录执行（Node.js 22.12+，或符合 Vite 7 要求的受支持版本）：
+
+```bash
+npm run setup                         # 安装根目录和苹果工程各自锁定的依赖
+npx playwright install chromium
+cd sources/apple-explorer
+npx playwright install chromium       # 两套测试版本可能不同，分别准备浏览器
+cd ../..
+```
+
+两份锁文件各自保留，避免迁移时顺带升级框架。单独执行根目录 `npm ci` 不会安装苹果依赖，请使用 `npm run setup`。
+
+### 修改苹果演示
+
+编辑 `sources/apple-explorer/src/` 和源 `index.html`，运行：
+
+```bash
+npm run dev:apple                     # Vite 开发预览，地址以终端输出为准
+npm run verify                        # 构建同步 → 全部测试 → 再次构建并比较产物
+```
+
+Vite 独立开发预览仅用于苹果页面，根目录不是导航首页；测试“返回作品集”和真实子路径时，构建后从仓库根目录 `npm start` 进入完整站点。
+
+### 修改打砖块 / 导航首页
+
+直接修改 `projects/freeform-breaker/` 或首页文件，使用 `npm start` 查看完整站点，并运行 `npm run verify`。打砖块的游戏规则和文件职责见其目录中的 `README.md`。
+
+### 构建命令
+
+| 命令 | 用途 |
+| --- | --- |
+| `npm run build` | 构建苹果工程，通过资源与导航检查后，替换对应发布目录并移除旧哈希文件 |
+| `npm run build:check` | 重新构建，但不修改发布目录；逐文件比较，发现漏同步或手改产物则失败 |
+| `npm run test:apple` | 苹果源码交互、几何和移动端测试 |
+| `npm run test:site` | 游戏引擎及完整发布站点浏览器回归 |
+| `npm test` | 构建脚本测试 + 苹果源码测试 + 站点测试（不自动同步发布包） |
+| `npm run verify` | 发布前完整验证，自动同步构建结果 |
+
+构建失败不会覆盖当前发布包。`npm run build` 不会改动打砖块和其他项目；不要在苹果生成目录中放需要手工保留的文件。
+
+验证成功后，检查改动，再将源码和产物**一起提交**：
+
+```bash
+git status
+git diff --stat
+git add .
+git commit -m "更新苹果演示"
+git push origin main
+```
+
+命令不会代替你自动提交或推送。当前仍按分支根目录发布，GitHub 不会替你运行本地构建脚本；只推送源码不会更新苹果演示的运行内容。
 
 ## 添加新作品
 
@@ -59,7 +122,7 @@ projects/timer/
 └── script.js
 ```
 
-如果使用前端框架，将**构建产物**放进文件夹，而不是仅放框架源码。资源路径应使用 `./style.css` 等相对路径，避免 `/assets/...` 这样的域名根路径；构建时也应配置适合子目录的资源路径。
+如果使用前端框架，将开发工程放进 `sources/<项目>/`，将**构建产物**放进 `projects/<项目>/`。同时扩展构建脚本和对应测试；目前构建脚本只管理苹果演示，不会自动发现新工程。资源路径应使用 `./style.css` 等相对路径，避免 `/assets/...` 这样的域名根路径；构建时也应配置适合子目录的资源路径。
 
 ### 2. 添加一张预览图
 
@@ -119,15 +182,19 @@ Pages 启用并部署成功后的访问地址是 `https://as17501.github.io/show
 
 ## 自动化验证
 
-Node.js 和 Playwright 仅用于测试，不需要上传 `node_modules`。
+Node.js 用于本地构建和测试，Playwright 用于测试；网站访问时不依赖它们，不需要上传 `node_modules`。
 
 ```bash
-npm ci
+npm run setup
 npx playwright install chromium
-npm test
+(cd sources/apple-explorer && npx playwright install chromium)
+npm run verify
 ```
 
 测试包括：
+
+- 构建脚本的目录替换、旧文件清理、失败保留、过期产物检查；
+- 苹果源码原有的交互、动画中断、种子裁切、体积守恒等测试，以及返回入口检查；
 
 - 打砖块原有的 23 项引擎测试；
 - 首页卡片、图片、分类数量、筛选、搜索、空状态、键盘搜索快捷键、随机入口；
@@ -139,3 +206,7 @@ npm test
 - 浏览器错误、缺失资源和站点运行时外部网络请求检查。
 
 测试自动启动临时 HTTP 服务，无需提前运行本地预览。截图输出到被 Git 忽略的 `test-results/`。
+
+苹果源码测试使用独立的 `5188` 端口，如端口被占用会明确失败而不复用未知服务。源码测试截图在 `sources/apple-explorer/test-results/`；站点截图在根目录 `test-results/`。
+
+当前仓库和分支根目录站点均是公开的；`sources/` 是目录组织，不是访问权限隔离。源码中同样不能保存密钥或私密数据。

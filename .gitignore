@@ -4,3 +4,6 @@ node_modules/
 test-results/
 playwright-report/
 *.log
+# Source build output is temporary; projects/ contains the committed release.
+sources/*/dist/
+projects/.apple-build-*/

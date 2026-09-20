@@ -5,7 +5,15 @@
   "description": "小游戏、小工具与互动演示的纯静态作品集",
   "scripts": {
     "start": "python3 -m http.server 4173 --bind 127.0.0.1",
-    "test": "node --test tests/engine.test.cjs && node tests/site.test.cjs"
+    "test": "npm run test:build && npm run test:apple && npm run test:site",
+    "setup": "npm ci && npm ci --prefix sources/apple-explorer",
+    "dev:apple": "npm run dev --prefix sources/apple-explorer",
+    "build": "node scripts/build-projects.cjs",
+    "build:check": "node scripts/build-projects.cjs --check",
+    "test:apple": "npm test --prefix sources/apple-explorer",
+    "test:site": "node --test tests/engine.test.cjs && node tests/site.test.cjs",
+    "verify": "npm run build && npm test && npm run build:check",
+    "test:build": "node --test tests/build.test.cjs"
   },
   "devDependencies": {
     "playwright": "1.63.0"
